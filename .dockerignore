@@ -1,0 +1,14 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+.next
+.git
+.env*.local
+*.md
+.gitignore
+.eslintrc.json
+.prettierrc
+*.log
+.DS_Store
+Thumbs.db
