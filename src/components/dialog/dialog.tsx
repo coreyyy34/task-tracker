@@ -67,7 +67,7 @@ export const BaseDialog: FC<BaseDialogProps> = ({
 							leave="ease-in duration-200"
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
-							className={`w-full ${widthClass} max-w-md transform overflow-hidden rounded-lg bg-white shadow-xl transition-all my-8`}
+							className={`w-full ${widthClass} transform overflow-hidden rounded-lg bg-white shadow-xl transition-all my-8`}
 						>
 							<div className="relative max-h-[calc(100vh-4rem)] overflow-y-auto">
 								<div className="p-6">

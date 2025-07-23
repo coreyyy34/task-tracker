@@ -20,6 +20,7 @@ export const TimeEntryFormDialog: FC<TimeEntryFormDialogProps> = ({
 			isOpen={isOpen}
 			setIsOpen={setIsOpen}
 			title={`${entry ? "Edit" : "Add"} Entry`}
+			size="lg"
 			buttons={
 				<>
 					<Button variant="outline">Cancel</Button>
