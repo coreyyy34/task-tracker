@@ -25,51 +25,58 @@ const TimeEntriesCard = () => {
 	};
 
 	return (
-		<Card>
-			<div className="flex items-center justify-between">
-				<CardTitle title="Time Entries" icon={Logs} />
-				<div className="space-x-2">
-					<Button
-						variant="outline"
-						onClick={() => setFiltersOpen((prev) => !prev)}
-					>
-						<Filter />
-						Filters
-					</Button>
-					<Button onClick={() => handleFormOpen()}>
-						<Plus />
-						Add entry
-					</Button>
+		<Card className="px-0 py-4">
+			<div>
+				<div className="px-4 flex items-center justify-between">
+					<CardTitle title="Time Entries" icon={Logs} />
+					<div className="space-x-2">
+						<Button
+							variant="outline"
+							onClick={() => setFiltersOpen((prev) => !prev)}
+						>
+							<Filter />
+							Filters
+						</Button>
+						<Button onClick={() => handleFormOpen()}>
+							<Plus />
+							Add entry
+						</Button>
+					</div>
 				</div>
-			</div>
 
-			<div
-				className={`grid transition-all duration-500 ${
-					isFiltersOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-				}`}
-			>
-				<div className="overflow-hidden">
-					<div className="p-4 bg-gray-50 rounded-lg space-y-4">
-						<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-							<InputGroup>
-								<InputLabel text="Filter by Tag" />
-								<Input />
-							</InputGroup>
-							<InputGroup>
-								<InputLabel text="Filter by Date" />
-								<Input type="date" />
-							</InputGroup>
-						</div>
-						<div className="flex gap-2">
-							<Button variant="outline" size="sm">
-								Clear Filters
-							</Button>
+				<div
+					className={`px-4 grid transition-all duration-500 ${
+						isFiltersOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+					}`}
+				>
+					<div className="overflow-hidden">
+						<div className="p-4 mt-4 bg-gray-50 rounded-lg space-y-4">
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+								<InputGroup>
+									<InputLabel text="Filter by Tag" />
+									<Input />
+								</InputGroup>
+								<InputGroup>
+									<InputLabel text="Filter by Date" />
+									<Input type="date" />
+								</InputGroup>
+							</div>
+							<div className="flex gap-2">
+								<Button variant="outline" size="sm">
+									Clear Filters
+								</Button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<TimeEntriesList />
+			<hr className="text-gray-300" />
+
+			<div className="px-4">
+				<TimeEntriesList />
+			</div>
+
 			<TimeEntryFormDialog
 				isOpen={isFormOpen}
 				setIsOpen={handleFormClose}
