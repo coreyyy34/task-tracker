@@ -55,7 +55,10 @@ const CurrentTaskCard = () => {
 	return (
 		<Card>
 			<CardTitle title="Current Task" icon={Clock} />
-			<CurrentTaskForm form={form} />
+			<CurrentTaskForm
+				form={form}
+				onSubmit={() => console.log("submit")}
+			/>
 			<TimerInterface
 				onStop={handleStopTimer}
 				onValidate={handleValidate}

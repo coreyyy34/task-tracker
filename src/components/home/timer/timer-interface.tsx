@@ -70,7 +70,7 @@ export const TimerInterface = ({
 					</Button>
 				) : (
 					<>
-						<Button onClick={handleClickStop} loading={saving}>
+						<Button form="current-time-entry-form" loading={saving}>
 							<Square className="h-4 w-4 mr-2" />
 							Stop Timer
 						</Button>

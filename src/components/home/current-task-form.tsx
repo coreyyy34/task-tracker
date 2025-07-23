@@ -5,16 +5,21 @@ import { UseFormReturn } from "react-hook-form";
 
 interface CurrentTaskFormProps {
 	form: UseFormReturn<TimeEntryForm>;
+	onSubmit: (data: TimeEntryForm) => void;
 }
 
-export const CurrentTaskForm: FC<CurrentTaskFormProps> = ({ form }) => {
+export const CurrentTaskForm: FC<CurrentTaskFormProps> = ({
+	form,
+	onSubmit,
+}) => {
 	const {
 		register,
 		formState: { errors },
+		handleSubmit,
 	} = form;
 
 	return (
-		<Form>
+		<Form id="current-time-entry-form" onSubmit={handleSubmit(onSubmit)}>
 			<InputGroup>
 				<InputLabel text="Task Name" />
 				<Input
