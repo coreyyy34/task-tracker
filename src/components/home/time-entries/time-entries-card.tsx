@@ -4,9 +4,23 @@ import { TimeEntriesList } from "./time-entries-list";
 import { Button } from "@/components/common/button";
 import { useState } from "react";
 import { TimeEntryFormDialog } from "./time-entry-form-dialog";
+import { PublicTimeEntryWithTag } from "@/types/client";
 
 const TimeEntriesCard = () => {
-	const [isTimeEntryDialogOpen, setTimeEntryDialogOpen] = useState(false);
+	const [isFormOpen, setFormOpen] = useState(false);
+	const [editingEntry, setEditingEntry] = useState<
+		PublicTimeEntryWithTag | undefined
+	>();
+
+	const handleFormOpen = (entry?: PublicTimeEntryWithTag) => {
+		setFormOpen(true);
+		if (entry) setEditingEntry(entry);
+	};
+
+	const handleFormClose = () => {
+		setFormOpen(false);
+		setEditingEntry(undefined);
+	};
 
 	return (
 		<Card>
@@ -17,7 +31,7 @@ const TimeEntriesCard = () => {
 						<Filter />
 						Filters
 					</Button>
-					<Button onClick={() => setTimeEntryDialogOpen(true)}>
+					<Button onClick={() => handleFormOpen()}>
 						<Plus />
 						Add entry
 					</Button>
@@ -26,8 +40,9 @@ const TimeEntriesCard = () => {
 
 			<TimeEntriesList />
 			<TimeEntryFormDialog
-				isOpen={isTimeEntryDialogOpen}
-				setIsOpen={setTimeEntryDialogOpen}
+				isOpen={isFormOpen}
+				setIsOpen={handleFormClose}
+				entry={editingEntry}
 			/>
 		</Card>
 	);

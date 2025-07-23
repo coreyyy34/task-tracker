@@ -26,11 +26,13 @@ export const TimeEntryFormDialog: FC<TimeEntryFormDialogProps> = ({
 					<Button variant="outline" onClick={() => setIsOpen(false)}>
 						Cancel
 					</Button>
-					<Button>{entry ? "Save" : "Add"}</Button>
+					<Button form="time-entry-form">
+						{entry ? "Save" : "Add"}
+					</Button>
 				</>
 			}
 		>
-			<Form>
+			<Form id="time-entry-form">
 				<InputGroup>
 					<InputLabel text="Task Name" required />
 					<Input
