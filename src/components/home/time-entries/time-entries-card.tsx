@@ -6,6 +6,7 @@ import { useState } from "react";
 import { TimeEntryFormDialog } from "./time-entry-form-dialog";
 import { PublicTimeEntryWithTag } from "@/types/client";
 import { Input, InputGroup, InputLabel } from "@/components/input";
+import TimeEntryFilters from "./time-entry-filters";
 
 const TimeEntriesCard = () => {
 	const [isFiltersOpen, setFiltersOpen] = useState(false);
@@ -50,23 +51,7 @@ const TimeEntriesCard = () => {
 					}`}
 				>
 					<div className="overflow-hidden">
-						<div className="p-4 mt-4 bg-gray-50 rounded-lg space-y-4">
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								<InputGroup>
-									<InputLabel text="Filter by Tag" />
-									<Input />
-								</InputGroup>
-								<InputGroup>
-									<InputLabel text="Filter by Date" />
-									<Input type="date" />
-								</InputGroup>
-							</div>
-							<div className="flex gap-2">
-								<Button variant="outline" size="sm">
-									Clear Filters
-								</Button>
-							</div>
-						</div>
+						<TimeEntryFilters />
 					</div>
 				</div>
 			</div>
