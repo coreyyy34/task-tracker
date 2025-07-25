@@ -1,13 +1,14 @@
-import { FC } from "react";
+import { useTimer } from "@/contexts/timer-context";
+import { useElapsedSeconds } from "@/hooks/use-elapsed-seconds";
+import { formatSeconds } from "@/util/format";
 
-interface TimerDisplayProps {
-	formattedTime: string;
-}
+export const TimerDisplay = () => {
+	const { startDate, isRunning } = useTimer();
+	const elapsedSeconds = useElapsedSeconds(startDate, isRunning);
 
-export const TimerDisplay: FC<TimerDisplayProps> = ({ formattedTime }) => {
 	return (
 		<div className="text-4xl font-mono font-bold w-full text-center py-4 text-blue-500">
-			{formattedTime}
+			{formatSeconds(elapsedSeconds)}
 		</div>
 	);
 };

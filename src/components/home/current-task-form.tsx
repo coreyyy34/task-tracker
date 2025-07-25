@@ -2,6 +2,8 @@ import { Form, Input, InputGroup, InputLabel } from "@/components/input";
 import { TimeEntryForm } from "@/types/client";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
+import { Button } from "../common/button";
+import { Square } from "lucide-react";
 
 interface CurrentTaskFormProps {
 	form: UseFormReturn<TimeEntryForm>;
@@ -46,6 +48,11 @@ export const CurrentTaskForm: FC<CurrentTaskFormProps> = ({
 					{...register("notes")}
 				/>
 			</InputGroup>
+
+			<Button>
+				<Square className="h-4 w-4 mr-2" />
+				Stop Timer
+			</Button>
 		</Form>
 	);
 };

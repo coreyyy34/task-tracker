@@ -1,10 +1,15 @@
-import { createContext, FC, PropsWithChildren, useState } from "react";
+import {
+	createContext,
+	FC,
+	PropsWithChildren,
+	useContext,
+	useState,
+} from "react";
 
 interface TimerContextType {
 	startDate: Date | null;
 	isRunning: boolean;
 	start: () => void;
-	stop: () => void;
 	reset: () => void;
 }
 
@@ -19,20 +24,20 @@ export const TimerProvider: FC<PropsWithChildren> = ({ children }) => {
 		setIsRunning(true);
 	};
 
-	const stop = () => {
-		setIsRunning(false);
-	};
-
 	const reset = () => {
 		setStartDate(null);
 		setIsRunning(false);
 	};
 
 	return (
-		<TimerContext.Provider
-			value={{ startDate, isRunning, start, stop, reset }}
-		>
+		<TimerContext.Provider value={{ startDate, isRunning, start, reset }}>
 			{children}
 		</TimerContext.Provider>
 	);
+};
+
+export const useTimer = () => {
+	const context = useContext(TimerContext);
+	if (!context) throw new Error("useTimer must be used within TimerProvider");
+	return context;
 };
