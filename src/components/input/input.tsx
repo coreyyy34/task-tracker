@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { CircleAlert } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import React, { ForwardedRef, forwardRef } from "react";
 
@@ -44,15 +45,23 @@ const Input: React.FC<InputProps> = forwardRef(
 			);
 
 		return (
-			<div>
+			<>
 				{element}
-				{error && (
-					<div className="flex items-center text-red-500 gap-2 mt-2">
-						<CircleAlert size={16} />
-						<span>{error}</span>
-					</div>
-				)}
-			</div>
+				<AnimatePresence initial={false}>
+					{error && (
+						<motion.div
+							initial={{ height: 0, opacity: 0 }}
+							animate={{ height: "auto", opacity: 1 }}
+							exit={{ height: 0, opacity: 0 }}
+							transition={{ duration: 0.2, ease: "easeInOut" }}
+							className="flex items-center text-red-500 gap-2 mt-2"
+						>
+							<CircleAlert size={16} />
+							<span>{error}</span>
+						</motion.div>
+					)}
+				</AnimatePresence>
+			</>
 		);
 	}
 );
