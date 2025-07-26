@@ -1,12 +1,13 @@
 "use client";
 
-import CurrentTaskCard from "@/components/home/current-task-card";
+import { CurrentTaskCard } from "@/components/home/current-task-card";
 import { TimeEntriesProvider } from "@/contexts/tasks-context";
 import { User } from "next-auth";
 import { FC } from "react";
 import { Toaster } from "react-hot-toast";
 import Navbar from "../common/navbar";
 import TimeEntriesCard from "../home/time-entries/time-entries-card";
+import { TimerProvider } from "@/contexts/timer-context";
 
 interface HomePageContentProps {
 	user: User;
@@ -28,7 +29,9 @@ const HomePageContent: FC<HomePageContentProps> = ({ user }) => {
 			<TimeEntriesProvider user={user}>
 				<div className="container mx-auto flex gap-4 w-full flex-col xl:flex-row p-8">
 					<div className="w-full xl:w-1/3">
-						<CurrentTaskCard />
+						<TimerProvider>
+							<CurrentTaskCard />
+						</TimerProvider>
 					</div>
 					<div className="w-full xl:w-2/3">
 						<TimeEntriesCard />

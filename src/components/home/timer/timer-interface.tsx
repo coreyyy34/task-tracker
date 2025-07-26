@@ -1,80 +1,78 @@
 "use client";
 
 import { Play, RotateCcw, Square } from "lucide-react";
-import { useState } from "react";
-import { useTimer } from "@/hooks/use-timer";
 import { TimerDisplay } from "./timer-display";
 import { Button } from "../../common/button";
 import { ConfirmationDialog } from "@/components/dialog/confirmation-dialog";
 
 interface TimerInterfaceProps {
-	onStop: (startDate: Date) => void;
-	onValidate: () => Promise<boolean>;
-	saving: boolean;
+	isSavingTimeEntry: boolean;
+	isRunning: boolean;
+	isStopDialogOpen: boolean;
+	setIsStopDialogOpen: (open: boolean) => void;
+	isResetDialogOpen: boolean;
+	setIsResetDialogOpen: (open: boolean) => void;
+	onStart: () => void;
+	onStop: () => void;
+	onReset: () => void;
+	onStopConfirm: () => void;
 }
 
 export const TimerInterface = ({
+	isSavingTimeEntry,
+	isRunning,
+	isStopDialogOpen,
+	setIsStopDialogOpen,
+	isResetDialogOpen,
+	setIsResetDialogOpen,
+	onStart,
 	onStop,
-	onValidate,
-	saving,
+	onReset,
+	onStopConfirm,
 }: TimerInterfaceProps) => {
-	const [isTimerActive, setTimerActive] = useState(false);
-	const {
-		startDate,
-		formattedTime,
-		reset: resetElapsedSeconds,
-	} = useTimer(isTimerActive);
-
-	const [stopDialogOpen, setStopDialogOpen] = useState(false);
-	const [resetDialogOpen, setResetDialogOpen] = useState(false);
-
-	const handleClickStart = () => {
-		setTimerActive(true);
+	const handleStart = () => {
+		onStart();
 	};
 
-	const handleClickStop = async () => {
-		const isFormValid = await onValidate();
-		if (isFormValid) {
-			setStopDialogOpen(true);
-		}
+	const handleStop = () => {
+		onStop();
 	};
 
-	const handleClickReset = () => {
-		setResetDialogOpen(true);
+	const handleReset = () => {
+		setIsResetDialogOpen(true);
 	};
 
-	const handleClickStopConfirm = () => {
-		// this shouldn't happen, timer sets the start date when its started
-		if (!startDate) return;
-
-		onStop(startDate);
-		setTimerActive(false);
-		resetElapsedSeconds();
-		setStopDialogOpen(false);
-	};
-
-	const handleClickResetConfirm = () => {
-		setTimerActive(false);
-		resetElapsedSeconds();
-		setResetDialogOpen(false);
+	const handleConfirmReset = () => {
+		onReset();
+		setIsResetDialogOpen(false);
 	};
 
 	return (
 		<>
-			<TimerDisplay formattedTime={formattedTime} />
+			<TimerDisplay />
+
 			<div className="flex justify-center gap-2 mt-2">
-				{!isTimerActive ? (
-					<Button onClick={handleClickStart}>
+				{!isRunning ? (
+					<Button type="button" onClick={handleStart}>
 						<Play className="h-4 w-4 mr-2" />
 						Start Timer
 					</Button>
 				) : (
 					<>
-						<Button onClick={handleClickStop} loading={saving}>
+						<Button
+							type="button"
+							onClick={handleStop}
+							loading={isSavingTimeEntry}
+						>
 							<Square className="h-4 w-4 mr-2" />
 							Stop Timer
 						</Button>
-						<Button variant="outline" onClick={handleClickReset}>
+						<Button
+							variant="outline"
+							type="button"
+							onClick={handleReset}
+							disabled={isSavingTimeEntry}
+						>
 							<RotateCcw className="h-4 w-4 mr-2" />
 							Reset
 						</Button>
@@ -83,19 +81,20 @@ export const TimerInterface = ({
 			</div>
 
 			<ConfirmationDialog
-				isOpen={stopDialogOpen}
-				setIsOpen={setStopDialogOpen}
+				isOpen={isStopDialogOpen}
+				setIsOpen={setIsStopDialogOpen}
 				title="Stop Current Timer"
 				description="Are you sure you want to stop the current timer? This will save your current time entry."
-				onConfirm={handleClickStopConfirm}
+				onConfirm={onStopConfirm}
 				confirmText="Stop Timer"
 			/>
+
 			<ConfirmationDialog
-				isOpen={resetDialogOpen}
-				setIsOpen={setResetDialogOpen}
+				isOpen={isResetDialogOpen}
+				setIsOpen={setIsResetDialogOpen}
 				title="Reset Timer"
 				description="Are you sure you want to reset the timer? This will discard the current time entry."
-				onConfirm={handleClickResetConfirm}
+				onConfirm={handleConfirmReset}
 				confirmText="Reset Timer"
 				confirmVariant="destructive"
 			/>

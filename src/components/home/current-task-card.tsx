@@ -2,67 +2,71 @@
 
 import { Clock } from "lucide-react";
 import { Card, CardTitle } from "../card";
-import { useForm } from "react-hook-form";
-import { TimeEntryForm } from "@/types/client";
-import { CurrentTaskForm } from "./current-task-form";
+import { Form, Input, InputGroup, InputLabel } from "../input";
 import { TimerInterface } from "./timer/timer-interface";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { clientTimeEntrySchema } from "@/lib/schemas";
-import { useTimeEntries } from "@/contexts/tasks-context";
-import toast from "react-hot-toast";
-import { useState } from "react";
+import { useTaskFormTimer } from "@/hooks/use-task-form-timer";
 
-const CurrentTaskCard = () => {
-	const { createTimeEntry } = useTimeEntries();
-	const [saving, setSaving] = useState(false);
-
-	const form = useForm<TimeEntryForm>({
-		resolver: yupResolver(clientTimeEntrySchema),
-		mode: "onSubmit",
-		defaultValues: {
-			taskName: "",
-			tagName: "",
-			notes: "",
-		},
-	});
-
-	const handleValidate = async () => {
-		const isFormValid = await form.trigger();
-		return isFormValid;
-	};
-
-	const handleStopTimer = async (startDate: Date) => {
-		const formData = form.getValues();
-		const endDate = new Date();
-		try {
-			setSaving(true);
-			await createTimeEntry({
-				taskName: formData.taskName,
-				tagName: formData.tagName,
-				notes: formData.notes,
-				startDate: startDate.toISOString(),
-				endDate: endDate.toISOString(),
-			});
-			toast.success("Successfully saved time entry");
-			form.reset();
-		} catch {
-			toast.error("Failed to save time entry");
-		} finally {
-			setSaving(false);
-		}
-	};
+export const CurrentTaskCard = () => {
+	const {
+		form,
+		formRef,
+		isSavingTimeEntry,
+		isRunning,
+		isStopDialogOpen,
+		setIsStopDialogOpen,
+		isResetDialogOpen,
+		setIsResetDialogOpen,
+		handleStart,
+		handleStop,
+		handleReset,
+		handleStopSubmission,
+		handleConfirmStop,
+	} = useTaskFormTimer();
 
 	return (
 		<Card>
 			<CardTitle title="Current Task" icon={Clock} />
-			<CurrentTaskForm form={form} />
-			<TimerInterface
-				onStop={handleStopTimer}
-				onValidate={handleValidate}
-				saving={saving}
-			/>
+			<Form ref={formRef} onSubmit={handleStopSubmission}>
+				<InputGroup>
+					<InputLabel text="Task Name" />
+					<Input
+						placeholder="What are you working on?"
+						error={form.formState.errors.taskName?.message}
+						{...form.register("taskName")}
+					/>
+				</InputGroup>
+				<InputGroup>
+					<InputLabel text="Tag" />
+					<Input
+						placeholder="Select or create a tag"
+						error={form.formState.errors.tagName?.message}
+						{...form.register("tagName")}
+					/>
+				</InputGroup>
+				<InputGroup>
+					<InputLabel text="Notes" />
+					<Input
+						type="textarea"
+						rows={5}
+						placeholder="Enter commit IDs, document links, etc"
+						error={form.formState.errors.notes?.message}
+						{...form.register("notes")}
+					/>
+				</InputGroup>
+
+				<TimerInterface
+					isSavingTimeEntry={isSavingTimeEntry}
+					isRunning={isRunning}
+					isStopDialogOpen={isStopDialogOpen}
+					setIsStopDialogOpen={setIsStopDialogOpen}
+					isResetDialogOpen={isResetDialogOpen}
+					setIsResetDialogOpen={setIsResetDialogOpen}
+					onStart={handleStart}
+					onStop={handleStop}
+					onReset={handleReset}
+					onStopConfirm={handleConfirmStop}
+				/>
+			</Form>
 		</Card>
 	);
 };
-
-export default CurrentTaskCard;
