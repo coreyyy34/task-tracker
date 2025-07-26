@@ -32,26 +32,14 @@ export const formatTime = (date: Date) => {
 	return formatted;
 };
 
-// export const formatDuration = (startDate: Date, endDate: Date) => {
-// 	if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()))
-// 		return "Invalid date";
-
-// 	const start = startDate.getTime() / 1000;
-// 	const end = endDate.getTime() / 1000;
-// 	const elapsedSeconds = end - start;
-// 	const hours = Math.floor(elapsedSeconds / 3600);
-// 	const minutes = Math.floor((elapsedSeconds % 3600) / 60);
-// 	const durationFormatted = `${hours > 0 ? hours + "h " : ""}${minutes}m`;
-// 	return durationFormatted;
-// };
-
 export const formatDuration = (duration: number) => {
-	// const start = duration.getTime() / 1000;
-	// const end = endDate.getTime() / 1000;
-	// const duration = (end) - start;
-	const elapsedSeconds = duration / 1000;
+	const elapsedSeconds = Math.floor(duration / 1000);
 	const hours = Math.floor(elapsedSeconds / 3600);
 	const minutes = Math.floor((elapsedSeconds % 3600) / 60);
-	const durationFormatted = `${hours > 0 ? hours + "h " : ""}${minutes}m`;
+	const seconds = elapsedSeconds % 60;
+
+	const durationFormatted = `${hours > 0 ? hours + "h " : ""}${
+		minutes > 0 || hours > 0 ? minutes + "m " : ""
+	}${seconds}s`;
 	return durationFormatted;
 };
