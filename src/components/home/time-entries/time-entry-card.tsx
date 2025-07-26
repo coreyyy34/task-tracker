@@ -1,6 +1,7 @@
+import { Button } from "@/components/common/button";
 import type { PublicTimeEntryWithTag } from "@/types/client";
 import { formatDate, formatDuration, formatTime } from "@/util/format";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, Eye, Pencil } from "lucide-react";
 import type { FC } from "react";
 
 interface TimeEntryCardProps {
@@ -13,42 +14,49 @@ export const TimeEntryCard: FC<TimeEntryCardProps> = ({ entry }) => {
 	const duration = endDate.getTime() - startDate.getTime();
 
 	return (
-		<div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300 cursor-pointer">
-			<div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-				<div className="flex-1 min-w-0">
-					<div className="flex items-start gap-3 mb-2">
-						<div className="flex-1 min-w-0">
-							<div className="flex">
-								<h3 className="flex-1 font-medium text-gray-900 truncate">
-									{entry.taskName}
-								</h3>
-								<span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full border flex-shrink-0">
-									{entry.tag.name}
+		<div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
+			<div className="flex flex-col gap-2">
+				{/* Title, dates, duration */}
+				<div className="flex items-center gap-4">
+					<div className="flex-1 flex flex-col gap-1 overflow-hidden">
+						<h3 className="font-medium text-gray-900 truncate">
+							{entry.taskName}
+						</h3>
+						<div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
+							<div className="flex items-center gap-1">
+								<Calendar className="w-4 h-4" />
+								<span>{formatDate(startDate)}</span>
+							</div>
+							<div className="flex items-center gap-1">
+								<Clock className="w-4 h-4" />
+								<span>
+									{formatTime(startDate)} -{" "}
+									{formatTime(endDate)}
 								</span>
 							</div>
-
-							<p className="text-sm text-gray-600 mt-1 overflow-hidden text-ellipsis break-words line-clamp-2">
-								{entry.notes}
-							</p>
 						</div>
 					</div>
-					<div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-						<div className="flex items-center gap-1">
-							<Calendar className="w-4 h-4" />
-							<span>{formatDate(startDate)}</span>
-						</div>
-						<div className="flex items-center gap-1">
-							<Clock className="w-4 h-4" />
-							<span>
-								{formatTime(startDate)} - {formatTime(endDate)}
-							</span>
-						</div>
-					</div>
-				</div>
-				<div className="flex items-center justify-between sm:flex-col sm:items-end gap-2">
-					<div className="text-lg font-semibold text-gray-900">
+					<span className="text-lg font-semibold text-gray-900">
 						{formatDuration(duration)}
-					</div>
+					</span>
+					<Button variant="outline" size="sm">
+						View
+					</Button>
+				</div>
+
+				{/* Notes */}
+				{entry.notes.length > 0 && (
+					<p className="text-sm text-gray-600 overflow-hidden text-ellipsis break-words line-clamp-2">
+						{entry.notes}
+					</p>
+				)}
+
+				{/* Tags */}
+				<div className="flex flex-wrap items-center gap-2 text-sm">
+					<span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-gray-200 text-gray-700 text-xs font-medium">
+						<span>{entry.tag.name}</span>
+						<span className="text-xs">1h</span>
+					</span>
 				</div>
 			</div>
 		</div>

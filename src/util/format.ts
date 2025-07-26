@@ -38,8 +38,9 @@ export const formatDuration = (duration: number) => {
 	const minutes = Math.floor((elapsedSeconds % 3600) / 60);
 	const seconds = elapsedSeconds % 60;
 
-	const durationFormatted = `${hours > 0 ? hours + "h " : ""}${
-		minutes > 0 || hours > 0 ? minutes + "m " : ""
-	}${seconds}s`;
-	return durationFormatted;
+	const parts = [];
+	if (hours > 0) parts.push(`${hours}h`);
+	if (minutes > 0) parts.push(`${minutes}m`);
+	if (seconds > 0) parts.push(`${seconds}s`);
+	return parts.length > 0 ? parts.join(" ") : "0s";
 };
