@@ -6,9 +6,10 @@ import type { FC } from "react";
 
 interface TimeEntryCardProps {
 	entry: PublicTimeEntryWithTag;
+	onView: () => void;
 }
 
-export const TimeEntryCard: FC<TimeEntryCardProps> = ({ entry }) => {
+export const TimeEntryCard: FC<TimeEntryCardProps> = ({ entry, onView }) => {
 	const startDate = new Date(entry.startTime);
 	const endDate = new Date(entry.endTime);
 	const duration = endDate.getTime() - startDate.getTime();
@@ -39,7 +40,7 @@ export const TimeEntryCard: FC<TimeEntryCardProps> = ({ entry }) => {
 					<span className="text-lg font-semibold text-gray-900">
 						{formatDuration(duration)}
 					</span>
-					<Button variant="outline" size="sm">
+					<Button variant="outline" size="sm" onClick={onView}>
 						View
 					</Button>
 				</div>

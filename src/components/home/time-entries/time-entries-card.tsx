@@ -7,9 +7,19 @@ import { TimeEntryFormDialog } from "./time-entry-form-dialog";
 import { PublicTimeEntryWithTag } from "@/types/client";
 import TimeEntryFilters from "./time-entry-filters";
 import { AnimatePresence, motion } from "motion/react";
+import { TimeEntryCard } from "./time-entry-card";
+import { useTimeEntries } from "@/contexts/tasks-context";
+import { TimeEntryDialog } from "@/components/time-entry-dialog";
 
 const TimeEntriesCard = () => {
+	const { timeEntries } = useTimeEntries();
+
 	const [isFiltersOpen, setFiltersOpen] = useState(false);
+	const [viewingTimeEntry, setViewingTimeEntry] = useState<
+		PublicTimeEntryWithTag | undefined
+	>();
+	const [isViewingEntry, setIsViewingEntry] = useState(false);
+
 	const [isFormOpen, setFormOpen] = useState(false);
 	const [editingEntry, setEditingEntry] = useState<
 		PublicTimeEntryWithTag | undefined
@@ -23,6 +33,18 @@ const TimeEntriesCard = () => {
 	const handleFormClose = () => {
 		setFormOpen(false);
 		setEditingEntry(undefined);
+	};
+
+	const handleViewTimeEntry = (entry: PublicTimeEntryWithTag) => {
+		setViewingTimeEntry(entry);
+		setIsViewingEntry(true);
+	};
+
+	const handleCloseViewTimeEntry = () => {
+		setIsViewingEntry(false);
+		setTimeout(() => {
+			setViewingTimeEntry(undefined);
+		}, 300);
 	};
 
 	return (
@@ -62,8 +84,14 @@ const TimeEntriesCard = () => {
 
 			<hr className="text-gray-300" />
 
-			<div className="px-4">
-				<TimeEntriesList />
+			<div className="space-y-4 px-4">
+				{timeEntries.map((entry) => (
+					<TimeEntryCard
+						key={entry.id}
+						entry={entry}
+						onView={() => handleViewTimeEntry(entry)}
+					/>
+				))}
 			</div>
 
 			<TimeEntryFormDialog
@@ -71,6 +99,11 @@ const TimeEntriesCard = () => {
 				setIsOpen={handleFormClose}
 				entry={editingEntry}
 			/>
+			<TimeEntryDialog
+				isOpen={isViewingEntry}
+				setIsOpen={(open) => !open && handleCloseViewTimeEntry()}
+				timeEntry={viewingTimeEntry}
+			></TimeEntryDialog>
 		</Card>
 	);
 };
