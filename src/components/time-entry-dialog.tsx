@@ -32,17 +32,10 @@ export const TimeEntryDialog: FC<TimeEntryDialogProps> = ({
 		<BaseDialog
 			isOpen={isOpen}
 			setIsOpen={setIsOpen}
-			title="Time Entry Details"
+			title={timeEntry?.taskName || ""}
 		>
 			{timeEntry && (
 				<div className="space-y-6 text-left">
-					{/* Task Name */}
-					<div>
-						<h4 className="text-lg font-semibold text-gray-900 mb-2">
-							{timeEntry.taskName}
-						</h4>
-					</div>
-
 					{/* Date */}
 					<div className="flex items-center gap-3">
 						<Calendar className="h-5 w-5 text-gray-400" />
