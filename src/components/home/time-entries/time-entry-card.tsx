@@ -1,7 +1,7 @@
 import { Button } from "@/components/common/button";
 import type { PublicTimeEntryWithTag } from "@/types/client";
 import { formatDate, formatDuration, formatTime } from "@/util/format";
-import { Calendar, Clock, Eye, Pencil } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import type { FC } from "react";
 
 interface TimeEntryCardProps {

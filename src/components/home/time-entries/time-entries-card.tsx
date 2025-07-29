@@ -1,7 +1,5 @@
-import { Filter, Logs, Plus } from "lucide-react";
+import { Logs } from "lucide-react";
 import { Card, CardTitle } from "../../card";
-import { TimeEntriesList } from "./time-entries-list";
-import { Button } from "@/components/common/button";
 import { useState } from "react";
 import { TimeEntryFormDialog } from "./time-entry-form-dialog";
 import { PublicTimeEntryWithTag } from "@/types/client";
@@ -52,7 +50,7 @@ const TimeEntriesCard = () => {
 			<div className="px-4">
 				<div className="flex items-center justify-between">
 					<CardTitle title="Time Entries" icon={Logs} />
-					<div className="space-x-2">
+					{/* <div className="space-x-2">
 						<Button
 							variant="outline"
 							onClick={() => setFiltersOpen((prev) => !prev)}
@@ -64,7 +62,7 @@ const TimeEntriesCard = () => {
 							<Plus />
 							Add entry
 						</Button>
-					</div>
+					</div> */}
 				</div>
 
 				<AnimatePresence initial={false}>
