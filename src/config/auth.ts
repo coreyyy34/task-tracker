@@ -6,7 +6,7 @@ import Google from "next-auth/providers/google";
 import { ROUTES } from "./routes";
 import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers, auth } = NextAuth({
 	providers: [
 		GitHub,
 		Google({
