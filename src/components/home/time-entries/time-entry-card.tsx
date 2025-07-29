@@ -13,6 +13,7 @@ export const TimeEntryCard: FC<TimeEntryCardProps> = ({ entry, onView }) => {
 	const startDate = new Date(entry.startTime);
 	const endDate = new Date(entry.endTime);
 	const duration = endDate.getTime() - startDate.getTime();
+	const formattedDuration = formatDuration(duration);
 
 	return (
 		<div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-300">
@@ -38,7 +39,7 @@ export const TimeEntryCard: FC<TimeEntryCardProps> = ({ entry, onView }) => {
 						</div>
 					</div>
 					<span className="text-lg font-semibold text-gray-900">
-						{formatDuration(duration)}
+						{formattedDuration}
 					</span>
 					<Button variant="outline" size="sm" onClick={onView}>
 						View
@@ -54,9 +55,10 @@ export const TimeEntryCard: FC<TimeEntryCardProps> = ({ entry, onView }) => {
 
 				{/* Tags */}
 				<div className="flex flex-wrap items-center gap-2 text-sm">
-					<span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-gray-200 text-gray-700 text-xs font-medium">
+					<span className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-gray-200 text-gray-700 text-xs font-medium">
 						<span>{entry.tag.name}</span>
-						<span className="text-xs">1h</span>
+						<span className="h-3 w-px bg-gray-400"></span>
+						<span className="text-xs">{formattedDuration}</span>
 					</span>
 				</div>
 			</div>
